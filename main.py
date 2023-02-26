@@ -1,7 +1,6 @@
 import random
 import time
 
-
 adjective_list = ["Scary","Hairy","Large","Ugly","Evil","Magical","Angry","Trigger-happy","Dirty", "Drunk","Trashy", "Morbidly Obese", "Virgin", "Gassy", "Nerdy", "Small", "Well Rested"]
 character_list = ["Podcaster", "Guy in an Afflication T-shirt","Stoner","Pastor", "Hobo", "Rabbit","Zebra", "Karen", "Bob Dylan", "Gary Busey", "Al Roker", "Boomer", "Millennial", "Gen-Zer", "Internet Explorer User", "Person with a petition clipboard"]
 expression_list = ["All of a sudden","Just like a movie","OH NO","Sweet Jesus","Holy Smokes","GEEEEZUS","I'm getting bored writing prompts"]
@@ -16,7 +15,6 @@ class player:
         self.base_attack = 2
         self.base_defense = 2
         self.base_attack_dict = base_attack_dict
-
 
 class enemy:
     def __init__(self,name,health,base_attack,base_defense,enemy_attack_dict):
@@ -58,7 +56,6 @@ def attack(enemy,user_name,player_kill_count):
                 player_death = 1
                 return(player_death)
 
-
 def attack_selection(base_attack_dict,mode):
     if mode == "player":
         selected_attack_initial = input("Please type name of attack, (punch,kick,sword,gun) : " )
@@ -77,11 +74,6 @@ def attack_selection(base_attack_dict,mode):
         print("MISS")
         selected_attack_power = 0
     return selected_attack_power
-
-        
-    return selected_attack_initial, selected_attack_power
-
-
 
 def run_game(round):
     boob = 0
@@ -109,9 +101,6 @@ def run_game(round):
         else:
             print("You lost.")
             
-
-
-
 round = 0
 player_kill_count = 0
 player_death = 0
