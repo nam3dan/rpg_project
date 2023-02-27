@@ -5,7 +5,7 @@ adjective_list = ["Scary","Hairy","Large","Ugly","Evil","Magical","Angry","Trigg
 character_list = ["Podcaster", "Guy in an Afflication T-shirt","Stoner","Pastor", "Hobo", "Rabbit","Zebra", "Karen", "Bob Dylan", "Gary Busey", "Al Roker", "Boomer", "Millennial", "Gen-Zer", "Internet Explorer User", "Person with a petition clipboard"]
 expression_list = ["All of a sudden","Just like a movie","OH NO","Sweet Jesus","Holy Smokes","GEEEEZUS","I'm getting bored writing prompts"]
 base_attack_dict = {"punch":3, "kick":5,"sword":7,"gun":15}
-enemy_attack_dict = {"punch":5, "kick":10,"sword":15,"gun":30}
+enemy_attack_dict = {"punch":10, "kick":20,"sword":30,"gun":40}
 enemy_dict = {}
 
 class player:
@@ -46,8 +46,10 @@ def attack(enemy,user_name,player_kill_count):
         else:
             if enemy_dict[enemy]["health"]<= 0:
                 print("\nYou have Defeated {}".format(enemy_dict[enemy]['name']))
+                time.sleep(4)
                 user_name.health = user_name.health - enemy_dict[enemy]["health"]
                 print("\n You have harvested {} HP from {} and your health is now {}.".format(enemy_dict[enemy]["health"]*-1,enemy_dict[enemy]['name'],user_name.health))
+                time.sleep(4)
                 del enemy_dict[enemy]
                 player_kill_count += 1
                 return(player_kill_count)
@@ -58,7 +60,7 @@ def attack(enemy,user_name,player_kill_count):
 
 def attack_selection(base_attack_dict,mode):
     if mode == "player":
-        selected_attack_initial = input("Please type name of attack, (punch,kick,sword,gun) : " )
+        selected_attack_initial = input("\nPlease type name of attack, (punch,kick,sword,gun) : " )
     else:
         enemy_attack_list = ["punch", "kick","sword","gun"]
         selected_attack_initial = enemy_attack_list[random.randint(0,len(enemy_attack_list)-1)]
@@ -79,7 +81,7 @@ def run_game(round):
     boob = 0
     if round == 0:
         enemy_dict = enemy_creation()
-        print("\n\n\n\n\nWelcome to the Matrix")
+        print("\n\n\n\n\nTHE ULTIMATE EVERYDAY NORMAL GUY FIGHT SIM")
         user_name = input("\nPlease enter your fighter's name:  ")
         user_name = player(user_name,100,3,3,base_attack_dict)
         print(user_name.health)
