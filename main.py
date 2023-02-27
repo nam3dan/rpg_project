@@ -36,27 +36,29 @@ def enemy_creation():
 def attack(enemy,user_name,player_kill_count):
     print("\n\n\n{}, {} enters and is ready to fight.\n".format(expression_list[random.randint(0,len(expression_list)-1)],enemy_dict[enemy]['name']))
     while enemy_dict[enemy]["health"] > 0 and user_name.health > 0:
-        selected_attack = attack_selection(base_attack_dict,"player" ) * user_name.base_attack
+        selected_attack_power, selected_attack_name = attack_selection(base_attack_dict,"player" )
+        selected_attack = selected_attack_power * user_name.base_attack
         enemy_dict[enemy]["health"] = enemy_dict[enemy]["health"] - selected_attack
-        print("\nYou've damaged {} by {}. Their health is now {}\n".format(enemy_dict[enemy]['name'],selected_attack,enemy_dict[enemy]["health"]))
+        print("\nYou've damaged {} by {} with {}. Their health is now {}\n".format(enemy_dict[enemy]['name'],selected_attack,selected_attack_name,enemy_dict[enemy]["health"]))
         if enemy_dict[enemy]["health"] > 0:
-            selected_attack = attack_selection(base_attack_dict,"bot" ) * enemy_dict[enemy]["base_attack"]
+            selected_attack_power, selected_attack_name = attack_selection(base_attack_dict,"bot" )
+            selected_attack = selected_attack_power * enemy_dict[enemy]["base_attack"]
             user_name.health = user_name.health - selected_attack
-            print("\n%s damaged you by %s. Your health is now %s" %(enemy_dict[enemy]['name'], selected_attack, user_name.health))
+            print("\n{} damaged you by {} with {}. Your health is now {}".format(enemy_dict[enemy]['name'], selected_attack, selected_attack_name,user_name.health))
         else:
-            if enemy_dict[enemy]["health"]<= 0:
+            if enemy_dict[enemy]["health"]<= 0 and user_name.health > 0:
                 print("\nYou have Defeated {}".format(enemy_dict[enemy]['name']))
                 time.sleep(4)
                 user_name.health = user_name.health - enemy_dict[enemy]["health"]
                 print("\n You have harvested {} HP from {} and your health is now {}.".format(enemy_dict[enemy]["health"]*-1,enemy_dict[enemy]['name'],user_name.health))
                 time.sleep(4)
                 del enemy_dict[enemy]
-                player_kill_count += 1
+                player_kill_count = 1
                 return(player_kill_count)
             else:
                 print("You have been killed. You are a complete failure and your grave will remain unmarked.")
-                player_death = 1
-                return(player_death)
+                player_kill_count = - 1
+                return(player_kill_count,player_death)
 
 def attack_selection(base_attack_dict,mode):
     if mode == "player":
@@ -75,35 +77,54 @@ def attack_selection(base_attack_dict,mode):
     else:
         print("MISS")
         selected_attack_power = 0
-    return selected_attack_power
+    return selected_attack_power, selected_attack_initial
 
 def run_game(round):
-    boob = 0
+    player_kill_counter = 0
+    player_death = 0
     if round == 0:
         enemy_dict = enemy_creation()
         print("\n\n\n\n\nTHE ULTIMATE EVERYDAY NORMAL GUY FIGHT SIM")
         user_name = input("\nPlease enter your fighter's name:  ")
         user_name = player(user_name,100,3,3,base_attack_dict)
         print(user_name.health)
-        print("\n\n\n\n\n\n\nWelcome to Namistan, %s. You're probably a little confused." % user_name.name)
+        print("\n\n\n\n\n\n\nWelcome to the Matrix, %s. You're probably a little confused." % user_name.name)
         time.sleep(2)
         print("\nYou fell asleep at your computer again. And the matrix army needs you, %s, to fight its biggest enemies." % user_name.name)
         time.sleep(5)
         print("\nThe hit list is as follows:")
         for i in range(1,6):
             print("\n\t" + enemy_dict["enemy_{0}".format(i)]['name'])
+        time.sleep(5)
         #print(enemy_dict)
         round = 1
-        while round > 0 and player_kill_count != 5 and player_death == 0:
-            boob +=1
-            round_enemy = "enemy_{0}".format(boob)
-            attack(round_enemy,user_name,player_kill_count)
+        while player_kill_counter != 5 and player_death == 0:
+            round_enemy = "enemy_{0}".format(round)
+            player_kill_counter = attack(round_enemy,user_name,player_kill_count)
+            if player_kill_counter == 1:
+                round += 1
+            else:
+                player_death = 1
+
         if player_kill_count == 5:
-            print("\nYou are the hero of Namistan, {}. Go now and prosper.".format(user_name.name))
+            print("\n\n\nYou are the hero of The Matrix, {}. Go now and prosper.".format(user_name.name))
+            play_again()
         else:
-            print("You lost.")
+            print("\n\n\nYou lost.")
+            play_again()
+
+def play_again():
+    choice = input("\n\nPlay Again? (y|n): ")
+    if choice == "y":
+        player_kill_count = 0
+        player_death = 0
+        round = 0
+        run_game(round)
+    else:
+        print("\n Thank you for playing")
+
             
-round = 0
 player_kill_count = 0
 player_death = 0
+round = 0
 run_game(round)
